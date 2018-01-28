@@ -1,14 +1,59 @@
 <h1>Contact</h1>
 
+<p class="well well-sm">If you have any question or feedback, please leave a 
+  message with your email address.
+</p>
+
+<div class="row">
+  <div class="col-md-6">
+
+    {{#if responseMessage}}
+      <br />
+
+      <div class="alert alert-success">
+        <h4>Thank you! Your message is sent.</h4>
+        <p>To: {{emailAddress}}</p>
+        <p>Message: {{message}}</p>
+        <p>Reference ID: {{id}}</p>
+      </div>
+
+    {{else}}
+
+      <div class="form-group has-feedback {{if isValidEmail 'has-success'}}">
+      <label for="exampleInputEmail1">Email address</label>
+
+      <div class="input-group">
+        <span class="input-group-addon">@</span>
+        {{input type="email" 
+                class="form-control" 
+                id="exampleInputEmail1" 
+                value=emailAddress 
+                autofocus="autofocus"
+                aria-describedby="inputGroupSuccess1Status" 
+                placeholder="Enter email"}}
+        {{#if isValidEmail}}<span class="glyphicon glyphicon-ok form-control-feedback"></span>{{/if}}
+      </div>
+      
+      </div>
+      <div class="form-group has-feedback {{if isMessageLongEnough 'has-success'}}">
+        <label for="exampleFormControlTextarea1">Your message</label>
+        {{textarea class="form-control" 
+                  id="exampleFormControlTextarea1" 
+                  rows="5"
+                  placeholder="Your message. (At least 5 characters.)"
+                  value=message}}
+      </div>
+      <button type="submit" 
+              disabled={{isNotValid}} 
+              {{action 'saveMessage'}} 
+              class="btn btn-success">Submit</button>
+
+    {{/if}}
+
+
+  </div>
+</div>
+
 <form>
-  <div class="form-group">
-    <label for="exampleInputEmail1">Email address</label>
-    {{input type="email" class="form-control" id="exampleInputEmail1" value=emailAddress aria-describedby="emailHelp" placeholder="Enter email"}}
-    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-  </div>
-  <div class="form-group">
-    <label for="exampleFormControlTextarea1">Your message</label>
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-  </div>
-  <button type="submit" disabled={{isDisabled}} {{action 'saveMessage'}} class="btn btn-primary">Submit</button>
+  
 </form>
