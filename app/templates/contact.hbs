@@ -1,59 +1,35 @@
-<h1>Contact</h1>
+<h1>Contact Page</h1>
 
-<p class="well well-sm">If you have any question or feedback, please leave a 
-  message with your email address.
-</p>
+<p class="well well-sm">If you have any question or feedback please leave a message with your email address.</p>
 
 <div class="row">
-  <div class="col-md-6">
+    <div class="col-md-6">
 
-    {{#if responseMessage}}
-      <br />
+      {{#if responseMessage}}
 
-      <div class="alert alert-success">
-        <h4>Thank you! Your message is sent.</h4>
-        <p>To: {{emailAddress}}</p>
-        <p>Message: {{message}}</p>
-        <p>Reference ID: {{id}}</p>
-      </div>
+        <br/>
+        <div class="alert alert-success">
+            <h4>Thank you! Your message is sent.</h4>
+            <p>To: {{model.email}}</p>
+            <p>Message: {{model.message}}</p>
+            <p>Reference ID: {{model.id}}</p>
+        </div>
 
-    {{else}}
+      {{else}}
 
-      <div class="form-group has-feedback {{if isValidEmail 'has-success'}}">
-      <label for="exampleInputEmail1">Email address</label>
+        <div class="form-group has-feedback {{if model.isValidEmail 'has-success'}}">
+            <label>Your email address*:</label>
+          {{input type="email" class="form-control" placeholder="Your email address" value=model.email autofocus="autofocus"}}
+          {{#if model.isValidEmail}}<span class="glyphicon glyphicon-ok form-control-feedback"></span>{{/if}}
+        </div>
+        <div class="form-group has-feedback {{if model.isMessageEnoughLong 'has-success'}}">
+            <label>Your message*:</label>
+          {{textarea class="form-control" placeholder="Your message. (At least 5 characters.)" rows="5" value=model.message}}
+          {{#if model.isMessageEnoughLong}}<span class="glyphicon glyphicon-ok form-control-feedback"></span>{{/if}}
+        </div>
+        <button class="btn btn-success" {{action 'sendMessage' model}} disabled={{model.isNotValid}}>Send</button>
 
-      <div class="input-group">
-        <span class="input-group-addon">@</span>
-        {{input type="email" 
-                class="form-control" 
-                id="exampleInputEmail1" 
-                value=emailAddress 
-                autofocus="autofocus"
-                aria-describedby="inputGroupSuccess1Status" 
-                placeholder="Enter email"}}
-        {{#if isValidEmail}}<span class="glyphicon glyphicon-ok form-control-feedback"></span>{{/if}}
-      </div>
-      
-      </div>
-      <div class="form-group has-feedback {{if isMessageLongEnough 'has-success'}}">
-        <label for="exampleFormControlTextarea1">Your message</label>
-        {{textarea class="form-control" 
-                  id="exampleFormControlTextarea1" 
-                  rows="5"
-                  placeholder="Your message. (At least 5 characters.)"
-                  value=message}}
-      </div>
-      <button type="submit" 
-              disabled={{isNotValid}} 
-              {{action 'saveMessage'}} 
-              class="btn btn-success">Submit</button>
+      {{/if}}
 
-    {{/if}}
-
-
-  </div>
+    </div>
 </div>
-
-<form>
-  
-</form>
