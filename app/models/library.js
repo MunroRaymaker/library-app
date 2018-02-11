@@ -1,6 +1,9 @@
 
+// app/models/library.js
 import { notEmpty } from '@ember/object/computed';
 import { hasMany } from 'ember-data/relationships';
+import DS from 'ember-data';
+import Faker from 'faker';
 
 export default DS.Model.extend({
   name: DS.attr('string'),
@@ -9,5 +12,18 @@ export default DS.Model.extend({
 
   books: DS.hasMany('book'),
   
-  isValid: notEmpty('name')
+  isValid: notEmpty('name'),
+
+  randomize() {
+    this.set('name', Faker.company.companyName() + ' Library');
+    this.set('address', this._fullAddress());
+    this.set('phone', Faker.phone.phoneNumber());
+
+    // If you would like to use in chain.
+    return this;
+  },
+
+  _fullAddress() {
+    return `${Faker.address.streetAddress()}, ${Faker.address.city()}`;
+  }
 });
